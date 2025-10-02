@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>USA Statistics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .back-button.active {
+            display: block;
+        }
+
+        .map-container {
+            padding: 20px;
+            background: #f8f9fa;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #map {
+            width: 100%;
+            height: auto;
+            max-width: 400px;
+        }
+
+        .state-path {
+            fill: #667eea;
+            stroke: #ffffff;
+            stroke-width: 1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .state-path:hover {
+            fill: #764ba2;
+            transform: scale(1.02);
+        }
+
+        .stats-container {
+            padding: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 16px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-button" id="backBtn" onclick="showUSAMap()">← Back</button>
+            <h1 id="headerTitle">USA Statistics</h1>
+            <div class="subtitle" id="headerSubtitle">Tap a state to explore</div>
+        </div>
+
+        <div class="map-container">
+            <svg id="map" viewBox="0 0 960 600"></svg>
+        </div>
+
+        <div class="stats-container" id="statsContainer">
+            <div class="loading">Loading statistics...</div>
+        </div>
+    </div>
+
+    <script>
+        // Embedded database with USA and state statistics
+        const dataDB = {
+            usa: {
+                name: "United States of America",
+                population: "331,893,745",
+                area: "3,796,742 sq mi",
+                gdp: "$25.46 trillion",
+                highestPoint: "Denali, AK (20,310 ft)",
+                capital: "Washington, D.C.",
+                founded: "July 4, 1776"
+            },
+            states: {
+                california: {
+                    name: "California",
+                    population: "39,538,223",
+                    area: "163,696 sq mi",
+                    capital: "Sacramento",
+                    gdp: "$3.6 trillion",
+                    highestPoint: "Mount Whitney (14,505 ft)",
+                    founded: "September 9, 1850"
+                },
+                texas: {
+                    name: "Texas",
+                    population: "29,145,505",
+                    area: "268,596 sq mi",
+                    capital: "Austin",
+                    gdp: "$2.4 trillion",
+                    highestPoint: "Guadalupe Peak (8,751 ft)",
+                    founded: "December 29, 1845"
+                },
+                florida: {
+                    name: "Florida",
+                    population: "21,538,187",
+                    area: "65,758 sq mi",
+                    capital: "Tallahassee",
+                    gdp: "$1.4 trillion",
+                    highestPoint: "Britton Hill (345 ft)",
+                    founded: "March 3, 1845"
+                },
+                newyork: {
+                    name: "New York",
+                    population: "20,201,249",
+                    area: "54,555 sq mi",
+                    capital: "Albany",
+                    gdp: "$2.0 trillion",
+                    highestPoint: "Mount Marcy (5,344 ft)",
+                    founded: "July 26, 1788"
+                },
+                pennsylvania: {
+                    name: "Pennsylvania",
+                    population: "13,002,700",
+                    area: "46,054 sq mi",
+                    capital: "Harrisburg",
+                    gdp: "$893 billion",
+                    highestPoint: "Mount Davis (3,213 ft)",
+                    founded: "December 12, 1787"
+                }
+            }
+        };
+
+        let currentView = 'usa';
+
+        // Simplified USA map with clickable states
+        function createUSAMap() {
+            const svg = document.getElementById('map');
+            svg.innerHTML = '';
+            svg.setAttribute('viewBox', '0 0 960 600');
+
+            // Simplified state paths (representative shapes)
+            const states = [
+                { id: 'california', d: 'M50,250 L50,450 L150,480 L180,450 L170,250 Z', name: 'California' },
+                { id: 'texas', d: 'M300,350 L300,500 L450,500 L450,400 L380,350 Z', name: 'Texas' },
+                { id: 'florida', d: 'M700,450 L750,450 L760,520 L740,550 L700,530 Z', name: 'Florida' },
+                { id: 'newyork', d: 'M800,150 L850,150 L860,200 L820,220 L800,200 Z', name: 'New York' },
+                { id: 'pennsylvania', d: 'M750,200 L800,200 L800,240 L750,240 Z', name: 'Pennsylvania' }
+            ];
+
+            states.forEach(state => {
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', state.d);
+                path.setAttribute('class', 'state-path');
+                path.setAttribute('data-state', state.id);
+                path.addEventListener('click', () => showStateDetails(state.id));
+                
+                const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+                title.textContent = state.name;
+                path.appendChild(title);
+                
+                svg.appendChild(path);
+            });
+        }
+
+        function createStateMap(stateId) {
+            const svg = document.getElementById('map');
+            svg.innerHTML = '';
+            svg.setAttribute('viewBox', '0 0 400 400');
+
+            // Simplified state outline
+            const stateMaps = {
+                california: 'M50,50 L50,350 L200,380 L220,350 L200,50 Z',
+                texas: 'M50,150 L50,350 L350,350 L350,200 L200,150 Z',
+                florida: 'M50,150 L200,150 L250,300 L200,350 L50,320 Z',
+                newyork: 'M50,100 L300,100 L320,250 L200,300 L50,250 Z',
+                pennsylvania: 'M50,150 L350,150 L350,300 L50,300 Z'
+            };
+
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', stateMaps[stateId] || stateMaps.california);
+            path.setAttribute('fill', '#667eea');
+            path.setAttribute('stroke', '#ffffff');
+            path.setAttribute('stroke-width', '2');
+            
+            svg.appendChild(path);
+        }
+
+        function showUSAMap() {
+            currentView = 'usa';
+            document.getElementById('backBtn').classList.remove('active');
+            document.getElementById('headerTitle').textContent = 'USA Statistics';
+            document.getElementById('headerSubtitle').textContent = 'Tap a state to explore';
+            
+            createUSAMap();
+            displayStats(dataDB.usa);
+        }
+
+        function showStateDetails(stateId) {
+            currentView = stateId;
+            const stateData = dataDB.states[stateId];
+            
+            document.getElementById('backBtn').classList.add('active');
+            document.getElementById('headerTitle').textContent = stateData.name;
+            document.getElementById('headerSubtitle').textContent = 'State Statistics';
+            
+            createStateMap(stateId);
+            displayStats(stateData);
+        }
+
+        function displayStats(data) {
+            const container = document.getElementById('statsContainer');
+            container.innerHTML = '';
+            container.classList.add('fade-in');
+
+            const stats = [
+                { label: 'Population', value: data.population },
+                { label: 'Area', value: data.area },
+                { label: 'Capital', value: data.capital },
+                { label: 'GDP', value: data.gdp },
+                { label: 'Highest Point', value: data.highestPoint },
+                { label: 'Founded', value: data.founded }
+            ];
+
+            stats.forEach(stat => {
+                const card = document.createElement('div');
+                card.className = 'stat-card';
+                card.innerHTML = `
+                    <div class="stat-label">${stat.label}</div>
+                    <div class="stat-value">${stat.value}</div>
+                `;
+                container.appendChild(card);
+            });
+
+            setTimeout(() => container.classList.remove('fade-in'), 500);
+        }
+
+        // Initialize app
+        showUSAMap();
+    </script>
+</body>
+</html>
