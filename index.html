@@ -528,6 +528,16 @@
         let populationByState = {};
         let gdpByState = {};
         let unemploymentByState = {};
+        let weatherByState = {};
+        let educationByState = {};
+        
+        // Coordinate delle capitali degli stati per i dati meteo
+        const stateCapitalCoords = {
+            "Alabama": { lat: 32.3777, lon: -86.3008 },
+            "Alaska": { lat: 58.3019, lon: -134.4197 },
+            "Arizona": { lat: 33.4484, lon: -112.0740 },
+            // ... aggiungi le coordinate per tutti gli stati
+        };
 
         // Carica la popolazione dagli open data Census
         async function fetchPopulation() {
@@ -560,6 +570,50 @@
                 });
             } catch (e) {
                 console.error('Errore caricamento PIL:', e);
+            }
+        }
+
+        // Carica dati meteo da OpenWeatherMap API
+        async function fetchWeather() {
+            const API_KEY = 'YOUR_OPENWEATHERMAP_API_KEY';
+            try {
+                for (const [stateName, coords] of Object.entries(stateCapitalCoords)) {
+                    const res = await fetch(
+                        `https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&appid=${API_KEY}&units=imperial`
+                    );
+                    const data = await res.json();
+                    weatherByState[stateName] = {
+                        temp: Math.round(data.main.temp) + '°F',
+                        conditions: data.weather[0].main,
+                        humidity: data.main.humidity + '%'
+                    };
+                }
+            } catch (e) {
+                console.error('Errore caricamento dati meteo:', e);
+            }
+        }
+
+        // Carica dati educativi da NCES API
+        async function fetchEducation() {
+            const API_KEY = 'YOUR_NCES_API_KEY';
+            try {
+                const res = await fetch('https://api.ies.ed.gov/api/v1/CCD/Public_school_characteristics', {
+                    headers: {
+                        'Authorization': `Bearer ${API_KEY}`
+                    }
+                });
+                const data = await res.json();
+                data.forEach(record => {
+                    if (record.state && record.total_schools && record.total_students) {
+                        educationByState[record.state] = {
+                            schools: record.total_schools.toLocaleString(),
+                            students: record.total_students.toLocaleString(),
+                            studentTeacherRatio: record.student_teacher_ratio
+                        };
+                    }
+                });
+            } catch (e) {
+                console.error('Errore caricamento dati educativi:', e);
             }
         }
 
@@ -745,6 +799,24 @@
                 { label: 'Capital', value: data.capital },
                 { label: 'GDP', value: gdpByState[data.name] || '—' },
                 { label: 'Unemployment Rate', value: unemploymentByState[data.name] || '—' },
+                { 
+                    label: 'Weather', 
+                    value: weatherByState[data.name] 
+                        ? `${weatherByState[data.name].temp} - ${weatherByState[data.name].conditions}`
+                        : '—'
+                },
+                { 
+                    label: 'Education',
+                    value: educationByState[data.name]
+                        ? `${educationByState[data.name].schools} schools, ${educationByState[data.name].students} students`
+                        : '—'
+                },
+                { 
+                    label: 'Student/Teacher Ratio',
+                    value: educationByState[data.name]
+                        ? `${educationByState[data.name].studentTeacherRatio}:1`
+                        : '—'
+                },
                 { label: 'Highest Point', value: data.highestPoint },
                 { label: 'Founded', value: data.founded }
             ];
@@ -766,7 +838,9 @@
     Promise.all([
         fetchPopulation(),
         fetchGDP(),
-        fetchUnemployment()
+        fetchUnemployment(),
+        fetchWeather(),
+        fetchEducation()
     ]).then(() => {
         showUSAMap();
     });
