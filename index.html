@@ -524,8 +524,10 @@
             '56': 'Wyoming'
         };
 
-        // Popolazione per stato (verrà riempita da API)
+        // Dati dinamici per stato (verranno riempiti da API)
         let populationByState = {};
+        let gdpByState = {};
+        let unemploymentByState = {};
 
         // Carica la popolazione dagli open data Census
         async function fetchPopulation() {
@@ -541,6 +543,52 @@
                 }
             } catch (e) {
                 console.error('Errore caricamento popolazione:', e);
+            }
+        }
+
+        // Carica il PIL da BEA API
+        async function fetchGDP() {
+            const API_KEY = 'YOUR_BEA_API_KEY'; // Sostituire con la tua API key
+            try {
+                const res = await fetch(`https://apps.bea.gov/api/data/?UserID=${API_KEY}&method=GetData&datasetname=Regional&TableName=SQGDP2&GeoFips=STATE&Year=2023`);
+                const data = await res.json();
+                data.BEAAPI.Results.Data.forEach(record => {
+                    const stateName = censusStateCodes[record.GeoFips];
+                    if (stateName) {
+                        gdpByState[stateName] = parseFloat(record.DataValue).toLocaleString() + " M$";
+                    }
+                });
+            } catch (e) {
+                console.error('Errore caricamento PIL:', e);
+            }
+        }
+
+        // Carica tasso di disoccupazione da BLS API
+        async function fetchUnemployment() {
+            const API_KEY = 'YOUR_BLS_API_KEY'; // Sostituire con la tua API key
+            try {
+                const res = await fetch('https://api.bls.gov/publicAPI/v2/timeseries/data/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Registration-Key': API_KEY
+                    },
+                    body: JSON.stringify({
+                        'seriesid': ['LASST010000000000003'], // Serie per ogni stato
+                        'startyear': '2023',
+                        'endyear': '2023'
+                    })
+                });
+                const data = await res.json();
+                data.Results.series.forEach(series => {
+                    const stateCode = series.seriesID.substring(5, 7);
+                    const stateName = censusStateCodes[stateCode];
+                    if (stateName && series.data[0]) {
+                        unemploymentByState[stateName] = series.data[0].value + "%";
+                    }
+                });
+            } catch (e) {
+                console.error('Errore caricamento disoccupazione:', e);
             }
         }
 
@@ -695,7 +743,8 @@
                 { label: 'Population', value: data.population },
                 { label: 'Area', value: data.area },
                 { label: 'Capital', value: data.capital },
-                { label: 'GDP', value: data.gdp },
+                { label: 'GDP', value: gdpByState[data.name] || '—' },
+                { label: 'Unemployment Rate', value: unemploymentByState[data.name] || '—' },
                 { label: 'Highest Point', value: data.highestPoint },
                 { label: 'Founded', value: data.founded }
             ];
@@ -713,8 +762,14 @@
             setTimeout(() => container.classList.remove('fade-in'), 500);
         }
 
-    // Inizializza app: prima carica popolazione, poi mostra mappa
-    fetchPopulation().then(showUSAMap);
+    // Inizializza app: carica tutti i dati, poi mostra mappa
+    Promise.all([
+        fetchPopulation(),
+        fetchGDP(),
+        fetchUnemployment()
+    ]).then(() => {
+        showUSAMap();
+    });
     </script>
 </body>
 </html>
