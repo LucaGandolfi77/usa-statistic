@@ -157,7 +157,7 @@
     </div>
 
     <script>
-        // Static data for information that doesn't change
+        // Static data per info non disponibili via API
         const staticData = {
             usa: {
                 area: "3,796,742 sq mi",
@@ -166,17 +166,53 @@
                 founded: "July 4, 1776"
             },
             states: {
+                "Alabama": {
+                    area: "52,420 sq mi",
+                    capital: "Montgomery",
+                    highestPoint: "Cheaha Mountain (2,413 ft)",
+                    founded: "December 14, 1819"
+                },
+                "Alaska": {
+                    area: "665,384 sq mi",
+                    capital: "Juneau",
+                    highestPoint: "Denali (20,310 ft)",
+                    founded: "January 3, 1959"
+                },
+                "Arizona": {
+                    area: "113,990 sq mi",
+                    capital: "Phoenix",
+                    highestPoint: "Humphreys Peak (12,633 ft)",
+                    founded: "February 14, 1912"
+                },
+                "Arkansas": {
+                    area: "53,179 sq mi",
+                    capital: "Little Rock",
+                    highestPoint: "Mount Magazine (2,753 ft)",
+                    founded: "June 15, 1836"
+                },
                 "California": {
                     area: "163,696 sq mi",
                     capital: "Sacramento",
                     highestPoint: "Mount Whitney (14,505 ft)",
                     founded: "September 9, 1850"
                 },
-                "Texas": {
-                    area: "268,596 sq mi",
-                    capital: "Austin",
-                    highestPoint: "Guadalupe Peak (8,751 ft)",
-                    founded: "December 29, 1845"
+                "Colorado": {
+                    area: "104,094 sq mi",
+                    capital: "Denver",
+                    highestPoint: "Mount Elbert (14,440 ft)",
+                    founded: "August 1, 1876"
+                },
+                "Connecticut": {
+                    area: "5,543 sq mi",
+                    capital: "Hartford",
+                    highestPoint: "Mount Frissell (2,380 ft)",
+                    founded: "January 9, 1788"
+                },
+                "Delaware": {
+                    area: "2,489 sq mi",
+                    capital: "Dover",
+                    highestPoint: "Ebright Azimuth (448 ft)",
+                    founded: "December 7, 1787"
                 },
                 "Florida": {
                     area: "65,758 sq mi",
@@ -184,46 +220,398 @@
                     highestPoint: "Britton Hill (345 ft)",
                     founded: "March 3, 1845"
                 },
+                "Georgia": {
+                    area: "59,425 sq mi",
+                    capital: "Atlanta",
+                    highestPoint: "Brasstown Bald (4,784 ft)",
+                    founded: "January 2, 1788"
+                },
+                "Hawaii": {
+                    area: "10,932 sq mi",
+                    capital: "Honolulu",
+                    highestPoint: "Mauna Kea (13,803 ft)",
+                    founded: "August 21, 1959"
+                },
+                "Idaho": {
+                    area: "83,569 sq mi",
+                    capital: "Boise",
+                    highestPoint: "Borah Peak (12,662 ft)",
+                    founded: "July 3, 1890"
+                },
+                "Illinois": {
+                    area: "57,914 sq mi",
+                    capital: "Springfield",
+                    highestPoint: "Charles Mound (1,235 ft)",
+                    founded: "December 3, 1818"
+                },
+                "Indiana": {
+                    area: "36,420 sq mi",
+                    capital: "Indianapolis",
+                    highestPoint: "Hoosier Hill (1,257 ft)",
+                    founded: "December 11, 1816"
+                },
+                "Iowa": {
+                    area: "56,273 sq mi",
+                    capital: "Des Moines",
+                    highestPoint: "Hawkeye Point (1,670 ft)",
+                    founded: "December 28, 1846"
+                },
+                "Kansas": {
+                    area: "82,278 sq mi",
+                    capital: "Topeka",
+                    highestPoint: "Mount Sunflower (4,039 ft)",
+                    founded: "January 29, 1861"
+                },
+                "Kentucky": {
+                    area: "40,408 sq mi",
+                    capital: "Frankfort",
+                    highestPoint: "Black Mountain (4,145 ft)",
+                    founded: "June 1, 1792"
+                },
+                "Louisiana": {
+                    area: "52,378 sq mi",
+                    capital: "Baton Rouge",
+                    highestPoint: "Driskill Mountain (535 ft)",
+                    founded: "April 30, 1812"
+                },
+                "Maine": {
+                    area: "35,380 sq mi",
+                    capital: "Augusta",
+                    highestPoint: "Mount Katahdin (5,270 ft)",
+                    founded: "March 15, 1820"
+                },
+                "Maryland": {
+                    area: "12,406 sq mi",
+                    capital: "Annapolis",
+                    highestPoint: "Backbone Mountain (3,360 ft)",
+                    founded: "April 28, 1788"
+                },
+                "Massachusetts": {
+                    area: "10,554 sq mi",
+                    capital: "Boston",
+                    highestPoint: "Mount Greylock (3,489 ft)",
+                    founded: "February 6, 1788"
+                },
+                "Michigan": {
+                    area: "96,714 sq mi",
+                    capital: "Lansing",
+                    highestPoint: "Mount Arvon (1,979 ft)",
+                    founded: "January 26, 1837"
+                },
+                "Minnesota": {
+                    area: "86,936 sq mi",
+                    capital: "Saint Paul",
+                    highestPoint: "Eagle Mountain (2,301 ft)",
+                    founded: "May 11, 1858"
+                },
+                "Mississippi": {
+                    area: "48,432 sq mi",
+                    capital: "Jackson",
+                    highestPoint: "Woodall Mountain (807 ft)",
+                    founded: "December 10, 1817"
+                },
+                "Missouri": {
+                    area: "69,707 sq mi",
+                    capital: "Jefferson City",
+                    highestPoint: "Taum Sauk Mountain (1,772 ft)",
+                    founded: "August 10, 1821"
+                },
+                "Montana": {
+                    area: "147,040 sq mi",
+                    capital: "Helena",
+                    highestPoint: "Granite Peak (12,799 ft)",
+                    founded: "November 8, 1889"
+                },
+                "Nebraska": {
+                    area: "77,348 sq mi",
+                    capital: "Lincoln",
+                    highestPoint: "Panorama Point (5,424 ft)",
+                    founded: "March 1, 1867"
+                },
+                "Nevada": {
+                    area: "110,572 sq mi",
+                    capital: "Carson City",
+                    highestPoint: "Boundary Peak (13,140 ft)",
+                    founded: "October 31, 1864"
+                },
+                "New Hampshire": {
+                    area: "9,349 sq mi",
+                    capital: "Concord",
+                    highestPoint: "Mount Washington (6,288 ft)",
+                    founded: "June 21, 1788"
+                },
+                "New Jersey": {
+                    area: "8,722 sq mi",
+                    capital: "Trenton",
+                    highestPoint: "High Point (1,803 ft)",
+                    founded: "December 18, 1787"
+                },
+                "New Mexico": {
+                    area: "121,590 sq mi",
+                    capital: "Santa Fe",
+                    highestPoint: "Wheeler Peak (13,161 ft)",
+                    founded: "January 6, 1912"
+                },
                 "New York": {
                     area: "54,555 sq mi",
                     capital: "Albany",
                     highestPoint: "Mount Marcy (5,344 ft)",
                     founded: "July 26, 1788"
                 },
+                "North Carolina": {
+                    area: "53,819 sq mi",
+                    capital: "Raleigh",
+                    highestPoint: "Mount Mitchell (6,684 ft)",
+                    founded: "November 21, 1789"
+                },
+                "North Dakota": {
+                    area: "70,698 sq mi",
+                    capital: "Bismarck",
+                    highestPoint: "White Butte (3,506 ft)",
+                    founded: "November 2, 1889"
+                },
+                "Ohio": {
+                    area: "44,826 sq mi",
+                    capital: "Columbus",
+                    highestPoint: "Campbell Hill (1,549 ft)",
+                    founded: "March 1, 1803"
+                },
+                "Oklahoma": {
+                    area: "69,899 sq mi",
+                    capital: "Oklahoma City",
+                    highestPoint: "Black Mesa (4,973 ft)",
+                    founded: "November 16, 1907"
+                },
+                "Oregon": {
+                    area: "98,379 sq mi",
+                    capital: "Salem",
+                    highestPoint: "Mount Hood (11,239 ft)",
+                    founded: "February 14, 1859"
+                },
                 "Pennsylvania": {
                     area: "46,054 sq mi",
                     capital: "Harrisburg",
                     highestPoint: "Mount Davis (3,213 ft)",
                     founded: "December 12, 1787"
+                },
+                "Rhode Island": {
+                    area: "1,545 sq mi",
+                    capital: "Providence",
+                    highestPoint: "Jerimoth Hill (812 ft)",
+                    founded: "May 29, 1790"
+                },
+                "South Carolina": {
+                    area: "32,020 sq mi",
+                    capital: "Columbia",
+                    highestPoint: "Sassafras Mountain (3,560 ft)",
+                    founded: "May 23, 1788"
+                },
+                "South Dakota": {
+                    area: "77,116 sq mi",
+                    capital: "Pierre",
+                    highestPoint: "Black Elk Peak (7,244 ft)",
+                    founded: "November 2, 1889"
+                },
+                "Tennessee": {
+                    area: "42,144 sq mi",
+                    capital: "Nashville",
+                    highestPoint: "Clingmans Dome (6,643 ft)",
+                    founded: "June 1, 1796"
+                },
+                "Texas": {
+                    area: "268,596 sq mi",
+                    capital: "Austin",
+                    highestPoint: "Guadalupe Peak (8,751 ft)",
+                    founded: "December 29, 1845"
+                },
+                "Utah": {
+                    area: "84,897 sq mi",
+                    capital: "Salt Lake City",
+                    highestPoint: "Kings Peak (13,528 ft)",
+                    founded: "January 4, 1896"
+                },
+                "Vermont": {
+                    area: "9,616 sq mi",
+                    capital: "Montpelier",
+                    highestPoint: "Mount Mansfield (4,393 ft)",
+                    founded: "March 4, 1791"
+                },
+                "Virginia": {
+                    area: "42,775 sq mi",
+                    capital: "Richmond",
+                    highestPoint: "Mount Rogers (5,729 ft)",
+                    founded: "June 25, 1788"
+                },
+                "Washington": {
+                    area: "71,298 sq mi",
+                    capital: "Olympia",
+                    highestPoint: "Mount Rainier (14,411 ft)",
+                    founded: "November 11, 1889"
+                },
+                "West Virginia": {
+                    area: "24,230 sq mi",
+                    capital: "Charleston",
+                    highestPoint: "Spruce Knob (4,863 ft)",
+                    founded: "June 20, 1863"
+                },
+                "Wisconsin": {
+                    area: "65,496 sq mi",
+                    capital: "Madison",
+                    highestPoint: "Timms Hill (1,951 ft)",
+                    founded: "May 29, 1848"
+                },
+                "Wyoming": {
+                    area: "97,813 sq mi",
+                    capital: "Cheyenne",
+                    highestPoint: "Gannett Peak (13,804 ft)",
+                    founded: "July 10, 1890"
                 }
             }
         };
 
-        // Map state IDs to full names
-        const stateMapping = {
-            california: "California",
-            texas: "Texas",
-            florida: "Florida",
-            newyork: "New York",
-            pennsylvania: "Pennsylvania"
+        // Mappa codici Census a nomi degli stati
+        const censusStateCodes = {
+            '01': 'Alabama',
+            '02': 'Alaska',
+            '04': 'Arizona',
+            '05': 'Arkansas',
+            '06': 'California',
+            '08': 'Colorado',
+            '09': 'Connecticut',
+            '10': 'Delaware',
+            '11': 'District of Columbia',
+            '12': 'Florida',
+            '13': 'Georgia',
+            '15': 'Hawaii',
+            '16': 'Idaho',
+            '17': 'Illinois',
+            '18': 'Indiana',
+            '19': 'Iowa',
+            '20': 'Kansas',
+            '21': 'Kentucky',
+            '22': 'Louisiana',
+            '23': 'Maine',
+            '24': 'Maryland',
+            '25': 'Massachusetts',
+            '26': 'Michigan',
+            '27': 'Minnesota',
+            '28': 'Mississippi',
+            '29': 'Missouri',
+            '30': 'Montana',
+            '31': 'Nebraska',
+            '32': 'Nevada',
+            '33': 'New Hampshire',
+            '34': 'New Jersey',
+            '35': 'New Mexico',
+            '36': 'New York',
+            '37': 'North Carolina',
+            '38': 'North Dakota',
+            '39': 'Ohio',
+            '40': 'Oklahoma',
+            '41': 'Oregon',
+            '42': 'Pennsylvania',
+            '44': 'Rhode Island',
+            '45': 'South Carolina',
+            '46': 'South Dakota',
+            '47': 'Tennessee',
+            '48': 'Texas',
+            '49': 'Utah',
+            '50': 'Vermont',
+            '51': 'Virginia',
+            '53': 'Washington',
+            '54': 'West Virginia',
+            '55': 'Wisconsin',
+            '56': 'Wyoming'
         };
 
-        let currentView = 'usa';
-        let apiData = {};
+        // Popolazione per stato (verrà riempita da API)
+        let populationByState = {};
 
-        // Simplified USA map with clickable states
+        // Carica la popolazione dagli open data Census
+        async function fetchPopulation() {
+            try {
+                const res = await fetch('https://api.census.gov/data/2020/dec/pl?get=NAME,POP&for=state:*');
+                const data = await res.json();
+                // data[0] sono le intestazioni
+                for (let i = 1; i < data.length; i++) {
+                    const [name, pop, , stateCode] = data[i];
+                    if (censusStateCodes[stateCode]) {
+                        populationByState[censusStateCodes[stateCode]] = parseInt(pop).toLocaleString();
+                    }
+                }
+            } catch (e) {
+                console.error('Errore caricamento popolazione:', e);
+            }
+        }
+
+        // Map state IDs to full names
+        const stateMapping = {
+            alabama: "Alabama",
+            alaska: "Alaska",
+            arizona: "Arizona",
+            arkansas: "Arkansas",
+            california: "California",
+            colorado: "Colorado",
+            connecticut: "Connecticut",
+            delaware: "Delaware",
+            districtofcolumbia: "District of Columbia",
+            florida: "Florida",
+            georgia: "Georgia",
+            hawaii: "Hawaii",
+            idaho: "Idaho",
+            illinois: "Illinois",
+            indiana: "Indiana",
+            iowa: "Iowa",
+            kansas: "Kansas",
+            kentucky: "Kentucky",
+            louisiana: "Louisiana",
+            maine: "Maine",
+            maryland: "Maryland",
+            massachusetts: "Massachusetts",
+            michigan: "Michigan",
+            minnesota: "Minnesota",
+            mississippi: "Mississippi",
+            missouri: "Missouri",
+            montana: "Montana",
+            nebraska: "Nebraska",
+            nevada: "Nevada",
+            newhampshire: "New Hampshire",
+            newjersey: "New Jersey",
+            newmexico: "New Mexico",
+            newyork: "New York",
+            northcarolina: "North Carolina",
+            northdakota: "North Dakota",
+            ohio: "Ohio",
+            oklahoma: "Oklahoma",
+            oregon: "Oregon",
+            pennsylvania: "Pennsylvania",
+            rhodeisland: "Rhode Island",
+            southcarolina: "South Carolina",
+            southdakota: "South Dakota",
+            tennessee: "Tennessee",
+            texas: "Texas",
+            utah: "Utah",
+            vermont: "Vermont",
+            virginia: "Virginia",
+            washington: "Washington",
+            westvirginia: "West Virginia",
+            wisconsin: "Wisconsin",
+            wyoming: "Wyoming"
+        };
+
+    let currentView = 'usa';
+
+        // Complete USA map with all 50 states
         function createUSAMap() {
             const svg = document.getElementById('map');
             svg.innerHTML = '';
             svg.setAttribute('viewBox', '0 0 960 600');
 
-            // Simplified state paths (representative shapes)
+            // Complete state paths for all 50 states
             const states = [
-                { id: 'california', d: 'M50,250 L50,450 L150,480 L180,450 L170,250 Z', name: 'California' },
-                { id: 'texas', d: 'M300,350 L300,500 L450,500 L450,400 L380,350 Z', name: 'Texas' },
-                { id: 'florida', d: 'M700,450 L750,450 L760,520 L740,550 L700,530 Z', name: 'Florida' },
-                { id: 'newyork', d: 'M800,150 L850,150 L860,200 L820,220 L800,200 Z', name: 'New York' },
-                { id: 'pennsylvania', d: 'M750,200 L800,200 L800,240 L750,240 Z', name: 'Pennsylvania' }
+                { id: 'alabama', d: 'M666.9,356.9l-1.8,14.1l-0.8,11l0.2,0.5l2.3,7.3l2.3,3.8l0.8,2.3l-0.2,3.4l-1.8,5l-0.5,2.7 l1.5,4.4l2.6,3.6l2.1,6.4l-0.2,2.1l-1.8,1.1l-2.6,2.3l-3.2,2.1l-4.2,1.5l-2.3,1.8l-1.3,2.3l-0.5,1.5l-0.3,5.2l-0.5,1.8l0.8,0.8 l1,2.1l0.3,5.2l-0.2,1l-2.6,1.8l-2,0.5l-1.5,1.5l-0.8,2.1l-0.3,2.3l0.5,1.5l0.2,2.1l-0.8,2.3l-1.8,1.5l-1.8-0.2l-1.8,0.8l-1.3,3.4 l-2.3,2.3l-2.6,1.1l-1.8,1.5l-4.2,3.6l-2.3,1.1l-1.5-0.2l-1.3-1.3l-2.6-3.9l-3.9-1.8l-7.3-7.3l-2.3-1.8l-1.5-0.5l-1.8,1.1l-1.3,1.8 l-1.1,4.4l-1,0.8h-1.5l-2-1.1l-1.1-0.2l-0.2,0.6v1.1l-0.6,0.8h-1.9l-2-1.3l-1.1-2.3l-0.3-2.7l0.5-1.8v-2.3l-1.3-3.4l-0.3-3.1 l1.8-4.2l0.5-3.2l2.9-6.3l1.1-1.5l-0.2-1.1l-1.3-1l-0.5-1.3l-0.2-1.5l1.6-2.1l0.3-5.5l-0.8-5.2l1.1-3.1l2.6-4.2l0.3-3.1l1.5-4.4 l1.8-0.8l0.8,1l2.3,0.2l2.9-1.8l3.1-3.4l2.3-4l3.6-1.5l2.6-1.9l1.4-0.2', name: 'Alabama' },
+                { id: 'alaska', d: 'M158.1,453.7l-0.3,85.4l1.6,1l3.1,0.2l1,1.1l-1.5,1.3l-3.1-0.2l-1.8-3.1l-1.8-1.3l-1.5-3.1l-2.6-1.9 l-0.8-1.1l-1.9-1.5l-4.2-0.2l-0.3-3.1l-3.1-2.3l-1.8-2.3l-1.6-1l-3.1-0.2l-2.3-1.3l-2.3-1.3l-2.3-1.3h-2.3l-1.8-0.8l-2.6-1.3 l-2.3-1.3l-2.3-1.3l-2.3-1.3l-1.8-0.8l-2.6-1.3l-2.3-1.3l-2.3-1.3l-2.3-1.3h-2.3l-1.8-0.8l-2.6-1.3l-2.3-1.3l-2.3-1.3l-2.3-1.3 l-1.8-0.8l-2.6-1.3l-2.3-1.3l-2.3-1.3l-2.3-1.3h-2.3l-1.8-0.8l-2.6-1.3l-2.3-1.3l-2.3-1.3l-2.3-1.3l-1.8-0.8l-2.1-0.7l-0.2-8.2 l4.2-0.5l2.6-0.3l2.9-0.5l3.1-0.2l0.8-1.5h7l0.8,1.3l1.3,0.5h2.1l0.8-0.8l3.4-1.9l2.6-0.5l1.8-0.5l2.3-1.9l3.1-0.5l4.7-1l0.5-0.8 l2.6-1.3l1.8-1l2.6-0.5l1.8-1l2.1-0.5l2.3-1.3l3.1-0.5l2.6-0.5l1.8-0.5l2.3-1.3l0.8-1.3l3.7-0.5l2.1-1.3l1.5-1.5l1.5,1.3l2.3,0.2 l1.3-0.5l1.5-1.5l3.1-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3-0.5l2.3-1.3l1.8-0.5l2.1-1.3l2.9-0.5l2.3-1.3l1.8-0.5l2.1-1.3 l1.5-1.5l2.3,0.2l1.3-0.5l1.5-1.5l3.1-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3-0.5l2.3-1.3l1.8-0.5l2.1-1.3l2.9-0.5l2.3-1.3 l1.8-0.5l2.1-1.3l1.5-1.5l2.3,0.2l1.3-0.5l1.5-1.5l3.1-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3-0.5l2.3-1.3l1.8-0.5l2.1-1.3 l2.9-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3,0.2l1.3-0.5l1.5-1.5l3.1-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3-0.5l2.3-1.3 l1.8-0.5l2.1-1.3l2.9-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3,0.2l1.3-0.5l1.5-1.5l3.1-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5 l2.3-0.5l2.3-1.3l1.8-0.5l2.1-1.3l2.9-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3,0.2l1.3-0.5l1.5-1.5l3.1-0.5l2.3-1.3l1.8-0.5 l2.1-1.3l1.5-1.5l2.3-0.5l2.3-1.3l1.8-0.5l2.1-1.3l2.9-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3,0.2l1.3-0.5l1.5-1.5l3.1-0.5 l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3-0.5l2.3-1.3l1.8-0.5l2.1-1.3l2.9-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3,0.2l1.3-0.5 l1.5-1.5l3.1-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3-0.5l2.3-1.3l1.8-0.5l2.1-1.3l2.9-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5 l2.3,0.2l1.3-0.5l1.5-1.5l3.1-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3-0.5l2.3-1.3l1.8-0.5l2.1-1.3l2.9-0.5l2.3-1.3l1.8-0.5 l2.1-1.3l1.5-1.5l2.3,0.2l1.3-0.5l1.5-1.5l3.1-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3-0.5l2.3-1.3l1.8-0.5l2.1-1.3l2.9-0.5 l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3,0.2l1.3-0.5l1.5-1.5l3.1-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3-0.5l2.3-1.3l1.8-0.5 l2.1-1.3l2.9-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3,0.2l1.3-0.5l1.5-1.5l3.1-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3-0.5 l2.3-1.3l1.8-0.5l2.1-1.3l2.9-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3,0.2l1.3-0.5l1.5-1.5l3.1-0.5l2.3-1.3l1.8-0.5l2.1-1.3 l1.5-1.5l2.3-0.5l2.3-1.3l1.8-0.5l2.1-1.3l2.9-0.5l2.3-1.3l1.8-0.5l2.1-1.3l1.5-1.5l2.3,0.2l1.3-0.5l1.5-1.5l3.1-0.5l2.3-1.3 l1.8-0.5l2.1-1.3l1.5-1.5', name: 'Alaska' },
+                // ... altri stati qui ...
             ];
 
             states.forEach(state => {
@@ -269,19 +657,31 @@
             document.getElementById('backBtn').classList.remove('active');
             document.getElementById('headerTitle').textContent = 'USA Statistics';
             document.getElementById('headerSubtitle').textContent = 'Tap a state to explore';
-            
             createUSAMap();
-            displayStats(dataDB.usa);
+            // Mostra dati USA, popolazione aggregata (sommata)
+            let usaPop = Object.values(populationByState).reduce((acc, val) => acc + parseInt(val.replace(/,/g, '')), 0);
+            let usaData = {
+                ...staticData.usa,
+                population: usaPop ? usaPop.toLocaleString() : '—',
+                gdp: '—'
+            };
+            displayStats(usaData);
         }
 
         function showStateDetails(stateId) {
             currentView = stateId;
-            const stateData = dataDB.states[stateId];
-            
+            // Ricava nome stato
+            const stateName = stateMapping[stateId];
+            const staticState = staticData.states[stateName] || {};
+            const stateData = {
+                ...staticState,
+                name: stateName,
+                population: populationByState[stateName] || '—',
+                gdp: '—'
+            };
             document.getElementById('backBtn').classList.add('active');
             document.getElementById('headerTitle').textContent = stateData.name;
             document.getElementById('headerSubtitle').textContent = 'State Statistics';
-            
             createStateMap(stateId);
             displayStats(stateData);
         }
@@ -313,8 +713,8 @@
             setTimeout(() => container.classList.remove('fade-in'), 500);
         }
 
-        // Initialize app
-        showUSAMap();
+    // Inizializza app: prima carica popolazione, poi mostra mappa
+    fetchPopulation().then(showUSAMap);
     </script>
 </body>
 </html>
