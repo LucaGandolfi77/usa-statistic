@@ -74,25 +74,42 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
 
         #map {
             width: 100%;
             height: auto;
             max-width: 400px;
+            position: relative;
+            z-index: 1;
+        }
+
+        #stateOverlays {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            z-index: 2;
+            pointer-events: none;
         }
 
         .state-path {
-            fill: #667eea;
-            stroke: #ffffff;
-            stroke-width: 1;
+            fill: #ffffff;
+            stroke: #000000;
+            stroke-width: 0.5;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        .state-path:hover {
-            fill: #764ba2;
-            transform: scale(1.02);
+        .state-overlay {
+            position: absolute;
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            z-index: 10;
         }
 
         .stats-container {
@@ -149,6 +166,7 @@
 
         <div class="map-container">
             <svg id="map" viewBox="0 0 960 600"></svg>
+            <div id="stateOverlays"></div>
         </div>
 
         <div class="stats-container" id="statsContainer">
@@ -716,18 +734,40 @@
                 // ... altri stati qui ...
             ];
 
+            const overlaysContainer = document.getElementById('stateOverlays');
+            overlaysContainer.innerHTML = '';
+
             states.forEach(state => {
+                // Crea il percorso SVG dello stato
                 const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                 path.setAttribute('d', state.d);
                 path.setAttribute('class', 'state-path');
                 path.setAttribute('data-state', state.id);
-                path.addEventListener('click', () => showStateDetails(state.id));
                 
                 const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
                 title.textContent = state.name;
                 path.appendChild(title);
                 
                 svg.appendChild(path);
+
+                // Crea il pulsante invisibile
+                const button = document.createElement('button');
+                button.className = 'state-overlay';
+                button.setAttribute('data-state', state.id);
+                button.style.position = 'absolute';
+                button.addEventListener('click', () => showStateDetails(state.id));
+
+                // Calcola la posizione del pulsante basata sul percorso SVG
+                const bbox = path.getBBox();
+                const svgRect = svg.getBoundingClientRect();
+                const scale = svgRect.width / 960; // 960 è la larghezza del viewBox
+
+                button.style.left = (bbox.x * scale) + 'px';
+                button.style.top = (bbox.y * scale) + 'px';
+                button.style.width = (bbox.width * scale) + 'px';
+                button.style.height = (bbox.height * scale) + 'px';
+
+                overlaysContainer.appendChild(button);
             });
         }
 
