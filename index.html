@@ -157,67 +157,59 @@
     </div>
 
     <script>
-        // Embedded database with USA and state statistics
-        const dataDB = {
+        // Static data for information that doesn't change
+        const staticData = {
             usa: {
-                name: "United States of America",
-                population: "331,893,745",
                 area: "3,796,742 sq mi",
-                gdp: "$25.46 trillion",
                 highestPoint: "Denali, AK (20,310 ft)",
                 capital: "Washington, D.C.",
                 founded: "July 4, 1776"
             },
             states: {
-                california: {
-                    name: "California",
-                    population: "39,538,223",
+                "California": {
                     area: "163,696 sq mi",
                     capital: "Sacramento",
-                    gdp: "$3.6 trillion",
                     highestPoint: "Mount Whitney (14,505 ft)",
                     founded: "September 9, 1850"
                 },
-                texas: {
-                    name: "Texas",
-                    population: "29,145,505",
+                "Texas": {
                     area: "268,596 sq mi",
                     capital: "Austin",
-                    gdp: "$2.4 trillion",
                     highestPoint: "Guadalupe Peak (8,751 ft)",
                     founded: "December 29, 1845"
                 },
-                florida: {
-                    name: "Florida",
-                    population: "21,538,187",
+                "Florida": {
                     area: "65,758 sq mi",
                     capital: "Tallahassee",
-                    gdp: "$1.4 trillion",
                     highestPoint: "Britton Hill (345 ft)",
                     founded: "March 3, 1845"
                 },
-                newyork: {
-                    name: "New York",
-                    population: "20,201,249",
+                "New York": {
                     area: "54,555 sq mi",
                     capital: "Albany",
-                    gdp: "$2.0 trillion",
                     highestPoint: "Mount Marcy (5,344 ft)",
                     founded: "July 26, 1788"
                 },
-                pennsylvania: {
-                    name: "Pennsylvania",
-                    population: "13,002,700",
+                "Pennsylvania": {
                     area: "46,054 sq mi",
                     capital: "Harrisburg",
-                    gdp: "$893 billion",
                     highestPoint: "Mount Davis (3,213 ft)",
                     founded: "December 12, 1787"
                 }
             }
         };
 
+        // Map state IDs to full names
+        const stateMapping = {
+            california: "California",
+            texas: "Texas",
+            florida: "Florida",
+            newyork: "New York",
+            pennsylvania: "Pennsylvania"
+        };
+
         let currentView = 'usa';
+        let apiData = {};
 
         // Simplified USA map with clickable states
         function createUSAMap() {
